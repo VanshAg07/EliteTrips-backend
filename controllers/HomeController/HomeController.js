@@ -14,7 +14,7 @@ const NavOffer = require("../../model/Offer/NavOffer");
 const ExploreAdventure = require("../../model/Homepage/ExploreAdventure");
 const Youtube = require("../../model/YoutubeSchema");
 const Gallery = require("../../model/GalleryPage");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 // Helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
@@ -753,7 +753,7 @@ exports.getOfferHome = async (req, res) => {
 exports.getOfferHomeDisplay = async (req, res) => {
   try {
     // Base URL for images
-    const baseUrl = "http://localhost:5001/upload/";
+    const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
     // Fetch all offers regardless of their status
     const offers = await OfferHomePage.find();

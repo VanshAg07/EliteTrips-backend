@@ -4,7 +4,7 @@ const Assist = require("../../model/PopUp/Assist");
 const HaventSignIn = require("../../model/PopUp/HaventSign");
 const AuthImage = require("../../model/AuthModel/AuthImage");
 const StateImages = require("../../model/AuthModel/StateImages");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 exports.createSignIn = async (req, res) => {
   try {

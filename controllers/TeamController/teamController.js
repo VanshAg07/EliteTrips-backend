@@ -85,7 +85,7 @@ exports.createTeamMember = async (req, res) => {
 
 exports.getTeamMember = async (req, res) => {
   try {
-    const baseUrl = "http://localhost:5001/upload/";
+    const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
     // Fetch all team members from the database
     const teamMembers = await OurTeam.find();

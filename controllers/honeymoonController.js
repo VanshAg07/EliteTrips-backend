@@ -1,5 +1,5 @@
 const Honeymoon = require("../model/Honeymoon");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 // Helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
@@ -236,7 +236,7 @@ exports.addTripToDatabase = async (req, res) => {
 };
 
 exports.getAllHoneymoonPackages = async (req, res) => {
-  const baseUrl = "http://localhost:5001/upload/";
+  const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
   try {
     const states = await Honeymoon.find().populate("trips");
     // Map through each state and its trips to add baseUrl to tripImages and pdf
@@ -383,7 +383,7 @@ exports.getSimilarTrips = async (req, res) => {
     }
 
     // Base URL for fetching images and files
-    const baseUrl = "http://localhost:5001/upload/";
+    const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
     // Fetch all other states except the given stateName
     const otherStates = await Honeymoon.find({

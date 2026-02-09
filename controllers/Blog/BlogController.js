@@ -1,5 +1,5 @@
 const Blog = require("../../model/Blogs/Blog");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 exports.createBlog = async (req, res) => {
   try {
     // console.log("Request Body:", req.body);

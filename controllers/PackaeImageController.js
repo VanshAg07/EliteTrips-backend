@@ -3,7 +3,7 @@ const International = require("../model/International");
 const Honeymoon = require("../model/Honeymoon");
 const OfferHome = require("../model/Offer/OfferSchema");
 const Corporate = require("../model/Corporate/Corporate");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 // Helper function to get proper image URL (handles Google Drive URLs and arrays)
 const getImageUrl = (image) => {

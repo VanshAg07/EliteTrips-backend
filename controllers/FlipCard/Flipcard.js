@@ -97,7 +97,7 @@ exports.getFlipcards = async (req, res) => {
   try {
     // Find the Flipcard documents
     const flipcards = await Flipcard.find();
-    const baseUrl = "http://localhost:5001/upload/";
+    const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
     if (!flipcards || flipcards.length === 0) {
       return res.status(404).json({ message: "No flipcards found" });

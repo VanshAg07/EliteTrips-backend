@@ -1,7 +1,7 @@
 const States = require("../model/adminProduct");
 const International = require("../model/International");
 const Honeymoon = require("../model/Honeymoon");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 exports.getSearchController = async (req, res) => {
   try {

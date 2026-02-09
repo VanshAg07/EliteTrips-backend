@@ -3,7 +3,7 @@ const InternationalActivities = require("../model/InternationalParts/Internation
 const InternationalFlavours = require("../model/InternationalParts/InternationalFlavours");
 const InternationalPlaces = require("../model/InternationalParts/InternationalPlaces");
 const InternationalShops = require("../model/InternationalParts/InternationalShops");
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 // Helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {

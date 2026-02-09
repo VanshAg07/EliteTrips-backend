@@ -200,7 +200,7 @@ exports.getHomeGallery = async (req, res) => {
       return res.status(404).json({ message: "Gallery not found" });
     }
     
-    const baseUrl = "http://localhost:5001/upload/";
+    const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
     
     // Helper function to fix old Google Drive URLs to lh3 format
     const fixGoogleDriveUrl = (url) => {

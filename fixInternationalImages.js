@@ -14,9 +14,9 @@ mongoose.connect(process.env.mongo).then(async () => {
       console.log('  tripImages:', JSON.stringify(trip.tripImages));
     }
     
-    // Fix corrupted URLs - remove "http://localhost:5001/upload/" prefix from Google Drive URLs
+    // Fix corrupted URLs - remove "https://elitetrips-backend.onrender.com/upload/" prefix from Google Drive URLs
     const result = await tripsCollection.updateMany(
-      { "tripImages": { $regex: "^http://localhost:5001/upload/https://" } },
+      { "tripImages": { $regex: "^https://elitetrips-backend.onrender.com/upload/https://" } },
       [
         {
           $set: {
@@ -26,8 +26,8 @@ mongoose.connect(process.env.mongo).then(async () => {
                 as: "img",
                 in: {
                   $cond: {
-                    if: { $regexMatch: { input: "$$img", regex: "^http://localhost:5001/upload/https://" } },
-                    then: { $replaceOne: { input: "$$img", find: "http://localhost:5001/upload/", replacement: "" } },
+                    if: { $regexMatch: { input: "$$img", regex: "^https://elitetrips-backend.onrender.com/upload/https://" } },
+                    then: { $replaceOne: { input: "$$img", find: "https://elitetrips-backend.onrender.com/upload/", replacement: "" } },
                     else: "$$img"
                   }
                 }

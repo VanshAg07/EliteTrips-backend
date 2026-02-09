@@ -117,7 +117,7 @@ MANUAL UPDATE CHECKLIST FOR EACH CONTROLLER:
 4. For GET endpoints, remove baseUrl concatenation:
    
    OLD:
-   const baseUrl = "http://localhost:5001/upload/";
+   const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
    images: item.images.map(img => baseUrl + img)
 
    NEW:

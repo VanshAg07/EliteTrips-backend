@@ -12,7 +12,7 @@
  * - Admin uploads files through form
  * - Files stored in /upload folder
  * - Database stores filename: "1234567890.jpg"
- * - Frontend displays: "http://localhost:5001/upload/1234567890.jpg"
+ * - Frontend displays: "https://elitetrips-backend.onrender.com/upload/1234567890.jpg"
  * 
  * AFTER (New System):
  * - Admin provides Google Drive/Photos link in form
@@ -79,7 +79,7 @@
  * 3. Update GET endpoints (remove baseUrl concatenation):
  * 
  * BEFORE:
- * const baseUrl = "http://localhost:5001/upload/";
+ * const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
  * images: item.images.map(img => baseUrl + img)
  * 
  * AFTER:

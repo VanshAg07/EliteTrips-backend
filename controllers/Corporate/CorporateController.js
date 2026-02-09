@@ -2,7 +2,7 @@ const Corporate = require("../../model/Corporate/Corporate");
 const PartnersCorporate = require("../../model/Corporate/PartnersCorporate");
 const HallOfFrame = require("../../model/HallOfFrame");
 const PaymentImage = require("../../model/PaymentImage/PayementImage")
-const baseUrl = "http://localhost:5001/upload/";
+const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
 // Helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
@@ -108,7 +108,7 @@ exports.getCorporateHeading = async (req, res) => {
     }
 
     // Base URL for images (modify baseUrl based on your configuration)
-    const baseUrl = `http://localhost:5001/upload/`;
+    const baseUrl = `https://elitetrips-backend.onrender.com/upload/`;
 
     // Map over the fetched data to format the response
     const response = corporateData.map((corporate) => ({
