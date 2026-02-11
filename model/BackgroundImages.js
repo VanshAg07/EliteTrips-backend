@@ -9,7 +9,6 @@ const BackgroundImage = new mongoose.Schema({
       "International",
       "Honeymoon",
       "Weekend",
-      "Corporate",
       "Blogs",
       "Offer",
       "About Us",

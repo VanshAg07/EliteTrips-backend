@@ -16,7 +16,7 @@ const ExploreAdventure = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    enum:["International","Team Adventures","Weekend Trips","Romantic Escapes","Corporate Trips","Experience India"]
+    enum: ["International", "Team Adventures", "Weekend Trips", "Romantic Escapes", "Experience India"]
   },
 });
 

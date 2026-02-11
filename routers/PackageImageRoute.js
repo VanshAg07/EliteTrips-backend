@@ -9,6 +9,5 @@ router.get(
 );
 router.get("/honeymoon/:stateName", PackageImage.getHoneymoonStateImages);
 router.get("/offer-home/:stateName", PackageImage.getOfferHomeStateImages);
-router.get("/corporate/:stateName", PackageImage.getCorporateStateImages);
 
 module.exports = router;

@@ -4,9 +4,9 @@ const User = require("./userDetails");
 require("dotenv").config();
 
 // Admin credentials
-const ADMIN_EMAIL = "admin@EliteTrips.com";
-const ADMIN_PASSWORD = "Admin@123456";
-const ADMIN_USERNAME = "Admin";
+const ADMIN_EMAIL = "vansh@gmail.com";
+const ADMIN_PASSWORD = "Vansh@123";
+const ADMIN_USERNAME = "Vansh";
 const ADMIN_PHONE = "9999999999";
 
 const createAdmin = async () => {

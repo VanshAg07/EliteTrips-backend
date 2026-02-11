@@ -7,6 +7,4 @@ router.post("/contact-home", ContactController.submitContactHome);
 
 router.post("/contact-trip", ContactController.submitContactTrip);
 
-router.post("/contact-corporate", ContactController.submitContactCorporate);
-
 module.exports = router;

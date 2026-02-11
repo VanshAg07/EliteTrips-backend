@@ -13,8 +13,6 @@ const EditPackage = require("./routers/editableRoutes");
 const Review = require("./routers/Review/Review");
 const Home = require("./routers/HomeRouter/HomeRouter");
 const User = mongoose.model("UserInfo");
-const Corporate = require("./routers/Corporate/CorporateRoute");
-const Blog = require("./routers/BlogRoute");
 const FlipCard = require("./routers/Flipcard/Flipcard");
 const Offer = require("./routers/OfferRoute");
 const StateImages = require("./routers/PackageImageRoute");
@@ -87,10 +85,6 @@ app.use("/api/edit-packages", EditPackage);
 app.use("/api/review", Review);
 
 app.use("/api/home", Home);
-
-app.use("/api/corporate", Corporate);
-
-app.use("/api/blog", Blog);
 
 app.use("/api/flip-card", FlipCard);
 
@@ -166,7 +160,7 @@ app.post("/api/admin/login", async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     console.log("User found:", user ? { email: user.email, role: user.role } : "No user found");
-    
+
     if (!user) {
       return res
         .status(404)
@@ -227,7 +221,7 @@ app.post("/userData", async (req, res) => {
       .catch((error) => {
         res.send({ status: "error", error: error });
       });
-  } catch (error) {}
+  } catch (error) { }
 });
 
 const Razorpay = require("razorpay");
