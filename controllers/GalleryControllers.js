@@ -199,26 +199,26 @@ exports.getHomeGallery = async (req, res) => {
     if (!gallery || gallery.length === 0) {
       return res.status(404).json({ message: "Gallery not found" });
     }
-    
+
     const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
-    
-    // Helper function to fix old Google Drive URLs to lh3 format
+
+    // helper function to fix old Google Drive URLs to lh3 format
     const fixGoogleDriveUrl = (url) => {
       if (!url || typeof url !== 'string') return url;
-      
+
       // If already using lh3.googleusercontent.com, return as is
       if (url.includes('lh3.googleusercontent.com')) {
         return url;
       }
-      
+
       let fileId = null;
-      
+
       // Check for old uc?export format
       const ucMatch = url.match(/drive\.google\.com\/uc\?.*id=([a-zA-Z0-9_-]+)/);
       if (ucMatch) {
         fileId = ucMatch[1];
       }
-      
+
       // Check for thumbnail format
       if (!fileId) {
         const thumbMatch = url.match(/drive\.google\.com\/thumbnail\?.*id=([a-zA-Z0-9_-]+)/);
@@ -226,7 +226,7 @@ exports.getHomeGallery = async (req, res) => {
           fileId = thumbMatch[1];
         }
       }
-      
+
       // Check for /d/FILE_ID/ format
       if (!fileId) {
         const dMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -234,14 +234,14 @@ exports.getHomeGallery = async (req, res) => {
           fileId = dMatch[1];
         }
       }
-      
+
       if (fileId) {
         return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
-      
+
       return url;
     };
-    
+
     // Process images and fix URLs
     const updatedGallery = gallery.map((item) => ({
       ...item._doc,
@@ -254,7 +254,7 @@ exports.getHomeGallery = async (req, res) => {
         return baseUrl + image;
       })
     }));
-    
+
     return res.json({ images: updatedGallery });
   } catch (error) {
     console.error(error);

@@ -1,24 +1,24 @@
 const Flipcard = require("../../model/Flipcard/Flipcard");
 
-// Helper function to convert Google Drive/Photos sharing link to direct viewable URL
+// helper function to convert Google Drive/Photos sharing link to direct viewable URL
 const convertGoogleDriveUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
-  
+
   let fileId = null;
-  
+
   // Check if it's a Google Photos link (lh3.googleusercontent.com)
   if (url.includes('lh3.googleusercontent.com') || url.includes('googleusercontent.com')) {
     // Google Photos links work directly, return as-is
     return url;
   }
-  
+
   // Extract file ID from various Google Drive URL formats
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileIdMatch = url.match(/\/d\/([^/]+)/);
   if (fileIdMatch) {
     fileId = fileIdMatch[1].split('?')[0];
   }
-  
+
   // Also handle uc?id= format or other id= formats
   if (!fileId) {
     const ucMatch = url.match(/[?&]id=([^&]+)/);
@@ -26,7 +26,7 @@ const convertGoogleDriveUrl = (url) => {
       fileId = ucMatch[1];
     }
   }
-  
+
   // Also handle open?id= format
   if (!fileId) {
     const openMatch = url.match(/open\?id=([^&]+)/);
@@ -34,13 +34,13 @@ const convertGoogleDriveUrl = (url) => {
       fileId = openMatch[1];
     }
   }
-  
+
   if (fileId) {
     // Use lh3.googleusercontent.com format - this is the most reliable for embedding
     // This format works for publicly shared files
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   // If already a direct URL or other format, return as is
   return url;
 };
@@ -103,23 +103,23 @@ exports.getFlipcards = async (req, res) => {
       return res.status(404).json({ message: "No flipcards found" });
     }
 
-    // Helper function to convert old URLs to lh3.googleusercontent.com format
+    // helper function to convert old URLs to lh3.googleusercontent.com format
     const fixGoogleDriveUrl = (url) => {
       if (!url || typeof url !== 'string') return url;
-      
+
       // If already using googleusercontent.com, return as-is
       if (url.includes('googleusercontent.com')) {
         return url;
       }
-      
+
       let fileId = null;
-      
+
       // Check for old thumbnail format
       const thumbnailMatch = url.match(/drive\.google\.com\/thumbnail\?id=([^&]+)/);
       if (thumbnailMatch) {
         fileId = thumbnailMatch[1];
       }
-      
+
       // Check for uc?export format
       if (!fileId) {
         const ucMatch = url.match(/drive\.google\.com\/uc\?.*id=([^&]+)/);
@@ -127,7 +127,7 @@ exports.getFlipcards = async (req, res) => {
           fileId = ucMatch[1];
         }
       }
-      
+
       // Check for /d/FILE_ID/ format
       if (!fileId) {
         const dMatch = url.match(/\/d\/([^/]+)/);
@@ -135,11 +135,11 @@ exports.getFlipcards = async (req, res) => {
           fileId = dMatch[1].split('?')[0];
         }
       }
-      
+
       if (fileId) {
         return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
-      
+
       return url;
     };
 

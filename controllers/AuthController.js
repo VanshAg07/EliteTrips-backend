@@ -179,7 +179,7 @@ exports.sendOtp = async (req, res) => {
               <p>Thank you for choosing EliteTrips! To complete your account verification process, please enter the following One-Time Password (OTP) on our website:</p>
               <div class="otp-code">${otp}</div>
               <p><strong>Important:</strong> This OTP is valid for the next 10 minutes. If you didn't request this OTP, please disregard this email.</p>
-              <p>If you need any assistance, feel free to <a href="mailto:support@EliteTrips.com">contact us</a>.</p>
+              <p>If you need any help, feel free to <a href="mailto:support@EliteTrips.com">contact us</a>.</p>
             </div>
             <div class="footer">
               <p>&copy; 2024 EliteTrips. All rights reserved.</p>

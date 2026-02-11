@@ -5,53 +5,53 @@ const InternationalPlaces = require("../model/InternationalParts/InternationalPl
 const InternationalShops = require("../model/InternationalParts/InternationalShops");
 const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
-// Helper function to convert Google Drive URL to lh3 format
+// helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
   if (!url) return url;
-  
+
   // Already in lh3 format
   if (url.includes('lh3.googleusercontent.com')) {
     return url;
   }
-  
+
   // Extract file ID from various Google Drive URL formats
   let fileId = null;
-  
+
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileMatch = url.match(/\/file\/d\/([^\/]+)/);
   if (fileMatch) {
     fileId = fileMatch[1];
   }
-  
+
   // Format: https://drive.google.com/open?id=FILE_ID
   const openMatch = url.match(/[?&]id=([^&]+)/);
   if (openMatch) {
     fileId = openMatch[1];
   }
-  
+
   // Format: https://drive.google.com/uc?id=FILE_ID
   const ucMatch = url.match(/uc\?.*id=([^&]+)/);
   if (ucMatch) {
     fileId = ucMatch[1];
   }
-  
+
   if (fileId) {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   return url;
 };
 
-// Helper function to get proper image URL (handles Google Drive URLs)
+// helper function to get proper image URL (handles Google Drive URLs)
 const getImageUrl = (image) => {
   if (!image) return image;
-  
+
   // If it's an array, get the first element
   if (Array.isArray(image)) {
     image = image[0];
     if (!image) return '';
   }
-  
+
   // Now handle the string
   if (typeof image === 'string' && image.startsWith('http')) {
     return image;
@@ -120,11 +120,11 @@ exports.updateStateById = async (req, res) => {
   try {
     const { stateName, stateImageUrl } = req.body;
     const updateData = {};
-    
+
     if (stateName) {
       updateData.stateName = stateName;
     }
-    
+
     // Check if Google Drive URL is provided
     if (stateImageUrl) {
       const convertedUrl = convertGoogleDriveUrl(stateImageUrl);
@@ -134,7 +134,7 @@ exports.updateStateById = async (req, res) => {
     else if (req.files && req.files.stateImage) {
       updateData.stateImage = req.files.stateImage.map((file) => file.filename);
     }
-    
+
     const updatedState = await International.findByIdAndUpdate(
       req.params.id,
       updateData,
@@ -183,7 +183,7 @@ exports.addInternationalPackage = async (req, res) => {
       }
       tripDetails.tripImages = imageUrls.map(url => convertGoogleDriveUrl(url));
     }
-    
+
     // Check for Google Drive URL for background image
     if (req.body.tripBackgroundImgUrl) {
       tripDetails.tripBackgroundImg = convertGoogleDriveUrl(req.body.tripBackgroundImgUrl);

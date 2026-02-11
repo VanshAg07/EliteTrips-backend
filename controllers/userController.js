@@ -9,16 +9,16 @@ const InternationalPlaces = require("../model/InternationalParts/InternationalPl
 const InternationalShops = require("../model/InternationalParts/InternationalShops");
 const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
-// Helper function to convert Google Drive URL or prepend baseUrl
+// helper function to convert Google Drive URL or prepend baseUrl
 const getImageUrl = (image) => {
   if (!image) return image;
-  
+
   // If it's an array, get the first element
   if (Array.isArray(image)) {
     image = image[0];
     if (!image) return '';
   }
-  
+
   // Now handle the string
   if (typeof image === 'string' && image.startsWith('http')) {
     // It's already a full URL (Google Drive)
@@ -169,7 +169,7 @@ exports.getSimilarTrips = async (req, res) => {
     }
 
     // Base URL for fetching images and files
-    
+
 
     // Fetch trips from other states, excluding the specified state
     const similarStates = await State.find({
@@ -259,7 +259,7 @@ exports.findStateAndTrip = async (req, res) => {
     }
 
     // Base URL for fetching images and files
-    
+
 
     // Append the base URL to media fields (tripImages, pdf, tripBackgroundImg)
     const tripImages = trip.tripImages.map((image) => getImageUrl(image));
@@ -424,7 +424,7 @@ exports.getShops = async (req, res) => {
       return res.status(404).json({ message: "No shops found" });
     }
 
-    
+
 
     const formattedShops = shops.map((shop) => ({
       ...shop._doc,
@@ -454,7 +454,7 @@ exports.getInternActivities = async (req, res) => {
         .json({ message: "No activities found for this state" });
     }
 
-    
+
 
     // Add baseUrl to the image field of each activity
     const formattedActivities = activities.map((activity) => ({
@@ -478,7 +478,7 @@ exports.getInternPlaces = async (req, res) => {
   const { name } = req.params;
   try {
     const places = await InternationalPlaces.find({ stateName: name });
-    
+
 
     if (!places || places.length === 0) {
       return res
@@ -515,7 +515,7 @@ exports.getInternFlavour = async (req, res) => {
         .json({ message: "No Rich Flavour found for this state" });
     }
 
-    
+
 
     const formattedActivities = activities.map((activity) => ({
       ...activity._doc,
@@ -545,7 +545,7 @@ exports.getInternShops = async (req, res) => {
       return res.status(404).json({ message: "No shops found" });
     }
 
-    
+
 
     const formattedShops = shops.map((shop) => ({
       ...shop._doc,

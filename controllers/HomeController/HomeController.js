@@ -16,40 +16,40 @@ const Youtube = require("../../model/YoutubeSchema");
 const Gallery = require("../../model/GalleryPage");
 const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
-// Helper function to convert Google Drive URL to lh3 format
+// helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
   if (!url) return url;
-  
+
   // Already in lh3 format
   if (url.includes('lh3.googleusercontent.com')) {
     return url;
   }
-  
+
   // Extract file ID from various Google Drive URL formats
   let fileId = null;
-  
+
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileMatch = url.match(/\/file\/d\/([^\/]+)/);
   if (fileMatch) {
     fileId = fileMatch[1];
   }
-  
+
   // Format: https://drive.google.com/open?id=FILE_ID
   const openMatch = url.match(/[?&]id=([^&]+)/);
   if (openMatch) {
     fileId = openMatch[1];
   }
-  
+
   // Format: https://drive.google.com/uc?id=FILE_ID
   const ucMatch = url.match(/uc\?.*id=([^&]+)/);
   if (ucMatch) {
     fileId = ucMatch[1];
   }
-  
+
   if (fileId) {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   return url;
 };
 
@@ -185,7 +185,7 @@ exports.getAllStatesHoneymoon = async (req, res) => {
 exports.addVideoPage = async (req, res) => {
   try {
     const tripDetails = req.body;
-    
+
     let backgroundVideo = null;
     let backgroundImage = null;
     let mediaType = req.body.mediaType || 'video';
@@ -211,7 +211,7 @@ exports.addVideoPage = async (req, res) => {
         mediaType = 'image';
       }
     }
-    
+
     // Extract type from request body
     const { type } = tripDetails;
 
@@ -241,7 +241,7 @@ exports.getAllVideoPages = async (req, res) => {
         ...videoPage.toObject(),
         mediaType: videoPage.mediaType || 'video',
       };
-      
+
       // Handle backgroundVideo
       if (videoPage.backgroundVideo) {
         if (videoPage.backgroundVideo.startsWith('http')) {
@@ -250,7 +250,7 @@ exports.getAllVideoPages = async (req, res) => {
           result.backgroundVideo = baseUrl + videoPage.backgroundVideo;
         }
       }
-      
+
       // Handle backgroundImage
       if (videoPage.backgroundImage) {
         if (videoPage.backgroundImage.startsWith('http')) {
@@ -259,7 +259,7 @@ exports.getAllVideoPages = async (req, res) => {
           result.backgroundImage = baseUrl + videoPage.backgroundImage;
         }
       }
-      
+
       return result;
     });
     res.json(videoPagesWithFullUrl);
@@ -298,7 +298,7 @@ exports.updateVideoPage = async (req, res) => {
 
     // Update fields with req.body values
     videoPage.type = req.body.type || videoPage.type;
-    
+
     // Check for Google Drive URL for video
     if (req.body.videoUrl) {
       videoPage.backgroundVideo = req.body.videoUrl; // Store the Google Drive video URL directly
@@ -324,7 +324,7 @@ exports.updateVideoPage = async (req, res) => {
         videoPage.mediaType = 'image';
       }
     }
-    
+
     // Update mediaType if provided
     if (req.body.mediaType) {
       videoPage.mediaType = req.body.mediaType;
@@ -503,21 +503,21 @@ exports.deleteFooterIcon = async (req, res) => {
 exports.addHomeVideo = async (req, res) => {
   try {
     const { video } = req.body; // Accept video URL from request body
-    
+
     if (!video) {
       return res.status(400).json({ message: "Video URL is required" });
     }
 
     // Check if a home video already exists
     const existingVideo = await HomeVideo.findOne({});
-    
+
     if (existingVideo) {
       // Update existing video
       existingVideo.video = Array.isArray(video) ? video : [video];
       await existingVideo.save();
-      return res.status(200).json({ 
-        message: "Home video updated successfully", 
-        data: existingVideo 
+      return res.status(200).json({
+        message: "Home video updated successfully",
+        data: existingVideo
       });
     }
 
@@ -525,16 +525,16 @@ exports.addHomeVideo = async (req, res) => {
     const videoArray = Array.isArray(video) ? video : [video];
     const homeVideo = new HomeVideo({ video: videoArray });
     await homeVideo.save();
-    
-    res.status(201).json({ 
-      message: "Home video added successfully", 
-      data: homeVideo 
+
+    res.status(201).json({
+      message: "Home video added successfully",
+      data: homeVideo
     });
   } catch (error) {
     console.error("Error adding home video:", error);
-    res.status(500).json({ 
-      message: "Failed to add home video", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to add home video",
+      error: error.message
     });
   }
 };
@@ -550,9 +550,9 @@ exports.getHomeVideo = async (req, res) => {
     res.json({ ...homeVideo.toObject() });
   } catch (error) {
     console.error("Error fetching home video:", error);
-    res.status(500).json({ 
-      message: "Failed to fetch home video", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to fetch home video",
+      error: error.message
     });
   }
 };
@@ -560,28 +560,28 @@ exports.getHomeVideo = async (req, res) => {
 exports.updateHomeVideo = async (req, res) => {
   try {
     const { video } = req.body; // Accept video URL from request body
-    
+
     if (!video) {
       return res.status(400).json({ message: "Video URL is required" });
     }
 
     const videoArray = Array.isArray(video) ? video : [video];
-    
+
     const updatedHomeVideo = await HomeVideo.findOneAndUpdate(
       {},
       { video: videoArray },
       { new: true, upsert: true } // Create if doesn't exist
     );
-    
-    res.json({ 
-      message: "Home video updated successfully", 
-      data: updatedHomeVideo 
+
+    res.json({
+      message: "Home video updated successfully",
+      data: updatedHomeVideo
     });
   } catch (error) {
     console.error("Error updating home video:", error);
-    res.status(500).json({ 
-      message: "Failed to update home video", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to update home video",
+      error: error.message
     });
   }
 };
@@ -607,7 +607,7 @@ exports.deleteHomeVideo = async (req, res) => {
 exports.createHeroImage = async (req, res) => {
   try {
     const { imageUrl } = req.body;
-    
+
     if (!imageUrl) {
       return res.status(400).json({ message: "Image URL is required" });
     }
@@ -628,9 +628,9 @@ exports.createHeroImage = async (req, res) => {
     });
   } catch (error) {
     console.error("Error saving hero image:", error);
-    res.status(500).json({ 
-      message: "Failed to save hero image", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to save hero image",
+      error: error.message
     });
   }
 };
@@ -649,9 +649,9 @@ exports.getHeroImage = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching hero image:", error);
-    res.status(500).json({ 
-      message: "Failed to fetch hero image", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to fetch hero image",
+      error: error.message
     });
   }
 };
@@ -666,9 +666,9 @@ exports.deleteHeroImage = async (req, res) => {
     res.json({ message: "Hero image deleted successfully" });
   } catch (error) {
     console.error("Error deleting hero image:", error);
-    res.status(500).json({ 
-      message: "Failed to delete hero image", 
-      error: error.message 
+    res.status(500).json({
+      message: "Failed to delete hero image",
+      error: error.message
     });
   }
 };
@@ -1545,7 +1545,7 @@ exports.deleteHomeNational = async (req, res) => {
   }
 };
 
-exports.updateHomeNational = async (req, res) => {};
+exports.updateHomeNational = async (req, res) => { };
 
 exports.addHomeHoneymoon = async (req, res) => {
   const { entryId, stateId, tripName } = req.body;

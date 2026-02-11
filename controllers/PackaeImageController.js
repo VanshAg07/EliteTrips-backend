@@ -4,7 +4,7 @@ const Honeymoon = require("../model/Honeymoon");
 const OfferHome = require("../model/Offer/OfferSchema");
 const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
-// Helper function to get proper image URL (handles Google Drive URLs and arrays)
+// helper function to get proper image URL (handles Google Drive URLs and arrays)
 const getImageUrl = (image) => {
   if (!image) return null;
 

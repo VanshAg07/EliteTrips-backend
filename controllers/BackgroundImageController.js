@@ -1,40 +1,40 @@
 const BackgroundImage = require("../model/BackgroundImages");
 const baseUrl = "https://elitetrips-backend.onrender.com/upload/";
 
-// Helper function to convert Google Drive URL to lh3 format
+// helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
   if (!url) return url;
-  
+
   // Already in lh3 format
   if (url.includes('lh3.googleusercontent.com')) {
     return url;
   }
-  
+
   // Extract file ID from various Google Drive URL formats
   let fileId = null;
-  
+
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileMatch = url.match(/\/file\/d\/([^\/]+)/);
   if (fileMatch) {
     fileId = fileMatch[1];
   }
-  
+
   // Format: https://drive.google.com/open?id=FILE_ID
   const openMatch = url.match(/[?&]id=([^&]+)/);
   if (openMatch) {
     fileId = openMatch[1];
   }
-  
+
   // Format: https://drive.google.com/uc?id=FILE_ID
   const ucMatch = url.match(/uc\?.*id=([^&]+)/);
   if (ucMatch) {
     fileId = ucMatch[1];
   }
-  
+
   if (fileId) {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   return url;
 };
 

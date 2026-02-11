@@ -1,47 +1,47 @@
 const OurTeam = require("../../model/Team/OurTeamSchema");
 const PaymentImage = require("../../model/PaymentImage/PayementImage");
 
-// Helper function to convert Google Drive URL to lh3 format
+// helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
   if (!url) return url;
-  
+
   // Already in lh3 format
   if (url.includes('lh3.googleusercontent.com')) {
     return url;
   }
-  
+
   // Extract file ID from various Google Drive URL formats
   let fileId = null;
-  
+
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileMatch = url.match(/\/file\/d\/([^\/]+)/);
   if (fileMatch) {
     fileId = fileMatch[1];
   }
-  
+
   // Format: https://drive.google.com/open?id=FILE_ID
   const openMatch = url.match(/[?&]id=([^&]+)/);
   if (openMatch) {
     fileId = openMatch[1];
   }
-  
+
   // Format: https://drive.google.com/uc?id=FILE_ID
   const ucMatch = url.match(/uc\?.*id=([^&]+)/);
   if (ucMatch) {
     fileId = ucMatch[1];
   }
-  
+
   if (fileId) {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   return url;
 };
 
 exports.createTeamMember = async (req, res) => {
   try {
     let image = [];
-    
+
     // Check for Google Drive URL
     if (req.body.imageUrl) {
       image = [convertGoogleDriveUrl(req.body.imageUrl)];
@@ -94,7 +94,7 @@ exports.getTeamMember = async (req, res) => {
     const responseData = teamMembers.map((teamMember) => {
       // Get the first image from the array
       const imageValue = Array.isArray(teamMember.image) ? teamMember.image[0] : teamMember.image;
-      
+
       // Check if it's a Google Drive URL (starts with http)
       let imageUrl;
       if (imageValue && imageValue.startsWith('http')) {
@@ -102,7 +102,7 @@ exports.getTeamMember = async (req, res) => {
       } else {
         imageUrl = `${baseUrl}${imageValue}`;
       }
-      
+
       return {
         ...teamMember._doc, // Spread the existing team member data
         image: imageUrl, // Construct the image URL

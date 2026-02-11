@@ -1,5 +1,5 @@
 /**
- * Google Drive Configuration Helper
+ * Google Drive Configuration helper
  * Converts Google Drive/Photos share links to direct embedding URLs
  */
 

@@ -50,7 +50,7 @@ exports.getSearchController = async (req, res) => {
   }
 };
 
-// Helper function to format date in "MMM'YY" format
+// helper function to format date in "MMM'YY" format
 const formatMonthYear = (date) => {
   const month = date.toLocaleString("default", { month: "short" });
   const year = date.getFullYear().toString().slice(-2);
@@ -70,7 +70,7 @@ exports.getUpcomingTripsController = async (req, res) => {
     //   "trips.tripDate": { $elemMatch: { $gte: currentDate } },
     // });
 
-    // Helper function to extract and organize trips per month
+    // helper function to extract and organize trips per month
     const extractMonthlyUpcomingTrips = (data, sourceName) => {
       const monthlyTrips = {};
       let totalTripDatesCount = 0;

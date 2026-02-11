@@ -168,7 +168,7 @@ exports.updateAssist = async (req, res) => {
     if (subTitle) assist.subTitle = subTitle;
 
     if (status !== undefined) {
-      assist.status = status === 'true'; 
+      assist.status = status === 'true';
     }
 
     if (req.files && req.files.image) {
@@ -311,23 +311,23 @@ exports.getHaventUser = async (req, res) => {
   }
 };
 
-// Helper function to convert Google Drive URL to lh3 format
+// helper function to convert Google Drive URL to lh3 format
 const convertGoogleDriveUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
-  
+
   // If already using lh3.googleusercontent.com, return as is
   if (url.includes('lh3.googleusercontent.com')) {
     return url;
   }
-  
+
   let fileId = null;
-  
+
   // Format: https://drive.google.com/file/d/FILE_ID/view
   const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (fileMatch) {
     fileId = fileMatch[1];
   }
-  
+
   // Format: https://drive.google.com/open?id=FILE_ID or uc?id=
   if (!fileId) {
     const idMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
@@ -335,11 +335,11 @@ const convertGoogleDriveUrl = (url) => {
       fileId = idMatch[1];
     }
   }
-  
+
   if (fileId) {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
-  
+
   return url;
 };
 
@@ -350,7 +350,7 @@ exports.createAuthImage = async (req, res) => {
 
     // Check for URL-based inputs from request body
     const { imageUrl, phoneImageUrl } = req.body;
-    
+
     if (imageUrl) {
       // Handle single URL or array of URLs
       if (Array.isArray(imageUrl)) {
@@ -388,11 +388,11 @@ exports.getAuthImage = async (req, res) => {
   try {
     const signIn = await AuthImage.find();
     if (!signIn) return res.status(404).json({ message: "Sign In not found" });
-    
+
     // Fix URLs for display - convert old Google Drive URLs to new format
     const signInWithFixedUrls = signIn.map((item) => {
       const updatedItem = item.toObject();
-      
+
       if (updatedItem.image && updatedItem.image.length > 0) {
         updatedItem.image = updatedItem.image.map((img) => {
           // If it's already a full URL, fix it to lh3 format
@@ -412,7 +412,7 @@ exports.getAuthImage = async (req, res) => {
       }
       return updatedItem;
     });
-    
+
     res.json(signInWithFixedUrls);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -499,7 +499,7 @@ exports.getAuthImageUser = async (req, res) => {
 exports.createStateImages = async (req, res) => {
   try {
     let images = [];
-    
+
     // Check for Google Drive URL first
     if (req.body.imageUrl) {
       const imageUrls = Array.isArray(req.body.imageUrl) ? req.body.imageUrl : [req.body.imageUrl];
@@ -507,7 +507,7 @@ exports.createStateImages = async (req, res) => {
     } else if (req.files && req.files.image) {
       images = req.files.image.map((file) => file.filename);
     }
-    
+
     const signIn = new StateImages({
       stateName: req.body.stateName,
       type: req.body.type,
@@ -524,11 +524,11 @@ exports.getStateImages = async (req, res) => {
   try {
     const signIn = await StateImages.find();
     if (!signIn) return res.status(404).json({ message: "Sign In not found" });
-    
+
     // Fix URLs for display - convert old Google Drive URLs to new format
     const signInWithFixedUrls = signIn.map((item) => {
       const updatedItem = item.toObject();
-      
+
       if (updatedItem.image && updatedItem.image.length > 0) {
         updatedItem.image = updatedItem.image.map((img) => {
           if (img.startsWith('http')) {
@@ -539,7 +539,7 @@ exports.getStateImages = async (req, res) => {
       }
       return updatedItem;
     });
-    
+
     res.json(signInWithFixedUrls);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -602,12 +602,12 @@ exports.getStateImagesUser = async (req, res) => {
         image:
           item.image && item.image.length > 0
             ? item.image.map((image) => {
-                // If it's a full URL (Google Drive), fix and return as-is
-                if (image.startsWith('http')) {
-                  return convertGoogleDriveUrl(image);
-                }
-                return baseUrl + image;
-              })
+              // If it's a full URL (Google Drive), fix and return as-is
+              if (image.startsWith('http')) {
+                return convertGoogleDriveUrl(image);
+              }
+              return baseUrl + image;
+            })
             : [],
       };
       return formattedItem;
